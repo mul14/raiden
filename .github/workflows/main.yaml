@@ -29,7 +29,11 @@ jobs:
         run: |
           GOOS=$GOOS GOARCH=$GOARCH go build -trimpath -o build/ ./cmd/cli/raiden.go
           cd build
-          tar cvf raiden-"$GOOS"-"$GOARCH".tar.gz raiden
+          if [[ $GOOS == 'darwin' ]]; then
+            tar cvf raiden-macos-"$GOARCH".tar.gz raiden
+          else
+            tar cvf raiden-"$GOOS"-"$GOARCH".tar.gz raiden
+          fi
 
       - name: Release
         uses: softprops/action-gh-release@v2
