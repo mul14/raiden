@@ -27,6 +27,14 @@ jobs:
           GOOS: ${{ matrix.goos }}
           GOARCH: ${{ matrix.goarch }}
         run: |
-          [[ $GOOS == 'windows' ]] && suffix=".exe" || suffix=""
-          GOOS=$GOOS GOARCH=$GOARCH go build -trimpath -o build/raiden-"$GOOS"-"$GOARCH$suffix" ./cmd/cli/raiden.go
+          filename=raiden-"$GOOS"-"$GOARCH"
+          
+          GOOS=$GOOS GOARCH=$GOARCH go build -trimpath -o build/ ./cmd/cli/raiden.go
+
           ls build
+
+          if [[ $GOOS == 'windows' ]]; then
+            zip -v raiden-"$GOOS"-"$GOARCH".zip build/raiden.exe
+          else
+            tar cvf raiden-"$GOOS"-"$GOARCH".tar.gz build/raiden
+          fi
