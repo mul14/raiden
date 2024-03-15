@@ -21,32 +21,23 @@ jobs:
         with:
           go-version: stable
 
-      - name: Run build
+      - name: Build
         env:
           CGO_ENABLED: 0
           GOOS: ${{ matrix.goos }}
           GOARCH: ${{ matrix.goarch }}
         run: |
-          filename=raiden-"$GOOS"-"$GOARCH"
-          
           GOOS=$GOOS GOARCH=$GOARCH go build -trimpath -o build/ ./cmd/cli/raiden.go
-
           cd build
-
           if [[ $GOOS == 'windows' ]]; then
             zip -v raiden-"$GOOS"-"$GOARCH".zip raiden.exe
+            rm raiden.exe
           else
             tar cvf raiden-"$GOOS"-"$GOARCH".tar.gz raiden
+            rm raiden
           fi
 
-          ls -l
-
-          if [[ $GOOS == 'windows' ]]; then
-            zip --show-files raiden-"$GOOS"-"$GOARCH".zip
-            unzip raiden-"$GOOS"-"$GOARCH".zip
-          else
-            tar tvf raiden-"$GOOS"-"$GOARCH".tar.gz
-            tar xvf raiden-"$GOOS"-"$GOARCH".tar.gz
-          fi
-
-          ls -l
+      - name: Release
+        uses: ncipollo/release-action@v1
+        with:
+          artifacts: "build/*"
