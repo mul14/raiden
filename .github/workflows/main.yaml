@@ -27,6 +27,6 @@ jobs:
           GOOS: ${{ matrix.goos }}
           GOARCH: ${{ matrix.goarch }}
         run: |
-          suffix=[[ $GOOS == 'windows' ]] && echo .exe
+          [[ $GOOS == 'windows' ]] && suffix=".exe" || suffix=""
           GOOS=$GOOS GOARCH=$GOARCH go build -trimpath -o build/raiden-"$GOOS"-"$GOARCH$suffix" ./cmd/cli/raiden.go
           ls build
