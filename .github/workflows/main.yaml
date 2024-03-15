@@ -42,3 +42,4 @@ jobs:
         with:
           artifacts: "build/*"
           name: latest
+          tag: ${{ github.ref }}
