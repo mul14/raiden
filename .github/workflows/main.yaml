@@ -29,7 +29,7 @@ jobs:
         run: |
           GOOS=$GOOS GOARCH=$GOARCH go build -trimpath -o build/ ./cmd/cli/raiden.go
           cd build
-          tar cvf raiden-"macos"-"$GOARCH".tar.gz raiden
+          tar cvf raiden-"$GOOS"-"$GOARCH".tar.gz raiden
 
       - name: Release
         uses: softprops/action-gh-release@v2
