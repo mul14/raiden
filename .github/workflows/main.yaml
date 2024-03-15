@@ -1,0 +1,24 @@
+name: Build and Release
+
+on:
+  push:
+    branches: 
+      - main
+
+jobs:
+  build-and-release:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Setup Go environment
+        uses: actions/setup-go@v5.0.0
+        with:
+          go-version: stable
+      - run: |
+          ls
+          make build-linux
+          make build-linux-arm64
+          make build-windows
+          make build-macos
+          make build-macos-arm64
+          ls build
