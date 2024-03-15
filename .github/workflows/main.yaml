@@ -31,24 +31,18 @@ jobs:
           
           GOOS=$GOOS GOARCH=$GOARCH go build -trimpath -o build/ ./cmd/cli/raiden.go
 
-          ls build
+          cd build
 
           if [[ $GOOS == 'windows' ]]; then
-            zip -v raiden-"$GOOS"-"$GOARCH".zip build/raiden.exe
+            zip -v raiden-"$GOOS"-"$GOARCH".zip raiden.exe
           else
-            tar cvf raiden-"$GOOS"-"$GOARCH".tar.gz build/raiden
+            tar cvf raiden-"$GOOS"-"$GOARCH".tar.gz raiden
           fi
 
-          ls build
-
           ls .
-
 
           if [[ $GOOS == 'windows' ]]; then
             zip --show-files raiden-"$GOOS"-"$GOARCH".zip
           else
             tar tvf raiden-"$GOOS"-"$GOARCH".tar.gz
           fi
-
-
-
