@@ -26,5 +26,5 @@ jobs:
           GOOS: ${{ matrix.goos }}
           GOARCH: ${{ matrix.goarch }}
         run: |
-          GOOS=$GOOS GOARCH=$GOARCH go build -trimpath -o build/raiden-"$GOOS"-$GOARCH 2> /dev/null
-          ls build
+          GOOS=$GOOS GOARCH=$GOARCH go build -trimpath -o raiden-"$GOOS"-$GOARCH 2> /dev/null
+          ls
