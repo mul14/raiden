@@ -48,7 +48,6 @@ jobs:
         with:
           path: release
           pattern: raiden-*
-      - run: ls -R release
 
       - name: Release
         uses: softprops/action-gh-release@v2
