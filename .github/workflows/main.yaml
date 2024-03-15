@@ -11,7 +11,7 @@ jobs:
     continue-on-error: true
     strategy:
       matrix:
-        goos: [linux, darwin, windows]
+        goos: [linux, darwin]
         goarch: [amd64, arm64]
     steps:
       - uses: actions/checkout@v4
@@ -29,28 +29,22 @@ jobs:
         run: |
           GOOS=$GOOS GOARCH=$GOARCH go build -trimpath -o build/ ./cmd/cli/raiden.go
           cd build
-          if [[ $GOOS == 'windows' ]]; then
-            zip -v raiden-"$GOOS"-"$GOARCH".zip raiden.exe
-            rm raiden.exe
-          else
-            tar cvf raiden-"$GOOS"-"$GOARCH".tar.gz raiden
-            rm raiden
-          fi
+          tar cvf raiden-"$GOOS"-"$GOARCH".tar.gz raiden
 
-      - name: Upload artifacts
-        uses: actions/upload-artifact@v4
-        with:
-          name: raiden-${{ matrix.goos }}-${{ matrix.goarch }}
-          path: build/raiden-*
+      # - name: Upload artifacts
+      #   uses: actions/upload-artifact@v4
+      #   with:
+      #     name: raiden-${{ matrix.goos }}-${{ matrix.goarch }}
+      #     path: build/raiden-*
 
-      - name: Download artifacts
-        uses: actions/download-artifact@v4
-        with:
-          path: release
-          pattern: raiden-*
+      # - name: Download artifacts
+      #   uses: actions/download-artifact@v4
+      #   with:
+      #     path: release
+      #     pattern: raiden-*
 
       - name: Release
         uses: softprops/action-gh-release@v2
         if: startsWith(github.ref, 'refs/tags/')
         with:
-          files: release/raiden-*
+          files: build/raiden-*
