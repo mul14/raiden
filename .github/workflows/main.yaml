@@ -38,3 +38,17 @@ jobs:
           else
             tar cvf raiden-"$GOOS"-"$GOARCH".tar.gz build/raiden
           fi
+
+          ls build
+
+          ls .
+
+
+          if [[ $GOOS == 'windows' ]]; then
+            zip --show-files raiden-"$GOOS"-"$GOARCH".zip
+          else
+            tar tvf raiden-"$GOOS"-"$GOARCH".tar.gz
+          fi
+
+
+
