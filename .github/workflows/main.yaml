@@ -2,7 +2,9 @@ name: Build and Release
 
 on:
   push:
-    branches: 
+    tags:
+      - v*
+    branches:
       - main
 
 jobs:
