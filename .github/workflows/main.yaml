@@ -8,17 +8,23 @@ on:
 jobs:
   build-and-release:
     runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        goos: [linux, macos, windows]
+        goarch: [amd64, arm64]
     steps:
       - uses: actions/checkout@v4
+
       - name: Setup Go environment
         uses: actions/setup-go@v5.0.0
         with:
           go-version: stable
-      - run: |
-          ls
-          make build-linux
-          make build-linux-arm64
-          make build-windows
-          make build-macos
-          make build-macos-arm64
+
+      - name: Run build
+        env:
+          CGO_ENABLED: 0
+          GOOS: ${{ matrix.goos }}
+          GOARCH: ${{ matrix.goarch }}
+        run: |
+          GOOS=$GOOS GOARCH=$GOARCH go build -trimpath -o build/raiden-"$GOOS"-$GOARCH 2> /dev/null
           ls build
