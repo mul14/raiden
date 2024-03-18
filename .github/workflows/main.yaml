@@ -28,17 +28,19 @@ jobs:
           GOARCH: ${{ matrix.goarch }}
         run: |
           GOOS=$GOOS GOARCH=$GOARCH go build -trimpath -o build/ ./cmd/raiden/main.go
-          cd build
-          if [[ $GOOS == 'darwin' ]]; then
-            tar cvf raiden-macos-"$GOARCH".tar.gz raiden
-          else
-            tar cvf raiden-"$GOOS"-"$GOARCH".tar.gz raiden
-          fi
+          ls -la
+          ls -la build
+          # cd build
+          # if [[ $GOOS == 'darwin' ]]; then
+          #   tar cvf raiden-macos-"$GOARCH".tar.gz raiden
+          # else
+          #   tar cvf raiden-"$GOOS"-"$GOARCH".tar.gz raiden
+          # fi
 
-      - name: Release
-        uses: softprops/action-gh-release@v2
-        if: startsWith(github.ref, 'refs/tags/')
-        with:
-          files: build/raiden-*
-          make_latest: true
-          generate_release_notes: true
+      # - name: Release
+      #   uses: softprops/action-gh-release@v2
+      #   if: startsWith(github.ref, 'refs/tags/')
+      #   with:
+      #     files: build/raiden-*
+      #     make_latest: true
+      #     generate_release_notes: true
